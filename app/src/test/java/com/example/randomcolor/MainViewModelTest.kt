@@ -17,13 +17,13 @@ class MainViewModelTest : ViewModel() {
         (" Test if random color gets returned as white color ")
     fun requirement1() {
         //Given
-        val background = random.randomColor()
+        val background = Color.White
 
         //When
         val color = random.reset()
 
         //Then
-        Assertions.assertEquals( Color.White, color)
+        Assertions.assertEquals( background, color)
 
     }
 }

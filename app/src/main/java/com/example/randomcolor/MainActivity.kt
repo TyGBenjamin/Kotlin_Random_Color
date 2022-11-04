@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -16,6 +17,7 @@ import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -25,6 +27,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.randomcolor.ui.theme.RandomColorTheme
@@ -48,7 +51,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = value
                 ) {
-                RandomButton(generateColor = mainViewModel::randomColor)
+                RandomButton(generateColor = mainViewModel::randomColor, resetColor = mainViewModel::reset)
                 }
             }
         }
@@ -57,7 +60,8 @@ class MainActivity : ComponentActivity() {
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun RandomButton(generateColor: ()-> Color){
+fun RandomButton(generateColor: ()-> Color,
+resetColor: () -> Color){
 
         Box(
             modifier = Modifier
@@ -89,20 +93,27 @@ fun RandomButton(generateColor: ()-> Color){
                 ) {
                     Text(text = "Click")
                 }
+//                Image(painter = painterResource(id = R.drawable.images)
+//                    , contentDescription = "",
+//                    modifier = Modifier.combinedClickable(
+//                        onClick = {generateColor()},
+//                        onLongClick = {resetColor()}
+//
+//                    ))
 
             }
         }
     }
 
-@Composable
-fun PlaceHolder(mainViewModel: MainViewModel){
-    Surface(
-        modifier = Modifier.fillMaxSize(),
-        color = mainViewModel.randomColor()
-    ) {
-        RandomButton(generateColor = mainViewModel::randomColor)
-    }
-}
+//@Composable
+//fun PlaceHolder(mainViewModel: MainViewModel){
+//    Surface(
+//        modifier = Modifier.fillMaxSize(),
+//        color = mainViewModel.randomColor()
+//    ) {
+//        RandomButton(generateColor = mainViewModel::randomColor)
+//    }
+//}
 
 
 @Preview(showBackground = true)
@@ -113,9 +124,11 @@ fun DefaultPreview() {
 }
 
 class MainClass{
-    fun randomColor(): Color {
+    fun randomColor(): Color{
         val random = Random()
-        return Color(255, random.nextInt(256), random.nextInt(256), random.nextInt(256))
+        var newColor= Color(alpha = 255, red = random.nextInt(256), blue = random.nextInt(256), green = random.nextInt(256))
+        println("randomcolor")
+        return newColor
     }
 
     fun reset(): Color {
